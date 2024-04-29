@@ -18,7 +18,7 @@ const Home = () => {
                 <div className='text-white h-full -mt-9 w-full flex items-center justify-center '>
                     <div className='flex-col text-center'>
                         <h1 className='text-3xl text-orange-500 font-bold text-center lg:text-xl md:text-sm xs:text-xs' style={{ fontFamily: 'Merriweather' }}><span className='text-white'>Wellcome to the</span> Users Authentication And <br />Authorized <span className='text-white'>Syatem!</span></h1>
-                        <button className='bg-orange-500 rounded-full p-1 mt-5 lg:text-lg md:text-sm xs:text-xs'><Link to='/sign-up' className='no-underline text-white flex justify-center items-center' style={{ fontFamily: 'Merriweather' }}>Let's start<FaArrowRightLong className='ml-2' /></Link></button>
+                        <button className='bg-orange-500 rounded-full p-1 mt-5 lg:text-lg md:text-sm xs:text-xs'><Link to='/sign-in' className='no-underline text-white flex justify-center items-center' style={{ fontFamily: 'Merriweather' }}>Let's start<FaArrowRightLong className='ml-2' /></Link></button>
                     </div>
                 </div>
             </div>
