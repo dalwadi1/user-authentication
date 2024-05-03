@@ -5,24 +5,26 @@ import Nav from '../Nav'
 import axios from 'axios'
 import { Bounce, toast } from 'react-toastify'
 
-const SignIn = () => {
+const SendMail = () => {
     const navigate = useNavigate()
     const [formdata, setformData] = useState({
         email: '',
-        password: ''
     })
 
     const uaerData = (e) => {
         const { name, value } = e.target;
-        setformData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    }
-    const submitdata = async (e) => {
-        e.preventDefault();
 
-        const res = await axios.post('http://localhost:5000/sign-in', formdata)
+        setformData((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+
+    }
+
+    const submitdata = async (e) => {
+
+        e.preventDefault();
+        const res = await axios.post('http://localhost:5000/send-mail', formdata)
         if (res.data.success === true) {
             toast.success(res.data.message, {
                 position: "top-center",
@@ -35,12 +37,6 @@ const SignIn = () => {
                 theme: "light",
                 transition: Bounce,
             });
-            if (res.data.success === true) {
-                navigate('/user-desh')
-            }
-            else {
-                navigate('/sign-in')
-            }
         } else {
             toast.error(res.data.message, {
                 position: "top-center",
@@ -63,30 +59,25 @@ const SignIn = () => {
                 <Nav />
                 <div className='md:-mt-10 xs:-mt-2 container mx-auto h-screen flex justify-center items-center'>
                     <form className='w-96' onSubmit={submitdata}>
-                        <h1 className="mb-5 lg:text-xl md:text-sm xs:text-xs text-center text-orange-500" style={{ fontFamily: 'Merriweather' }}>Please signin</h1>
+                        <h1 className="mb-5 lg:text-xl md:text-sm xs:text-xs text-center text-orange-500" style={{ fontFamily: 'Merriweather' }}>Enter valied e-mail address for reset password </h1>
 
 
                         <div className="form-floating mt-3">
                             <input type="email" name='email' onChange={uaerData} className="form-control  md:text-sm xs:text-xs" placeholder="Password" />
-                            <label >user Email</label>
+                            <label >User Email</label>
                         </div>
-                        <div className="form-floating mt-3">
-                            <input type="password" name='password' onChange={uaerData} className="form-control  md:text-sm xs:text-xs" id="floatingPassword" placeholder="Password" />
-                            <label>Password</label>
-                        </div>
-                        <h1 className='text-white text-sm mt-5 p-2 text-right  md:text-sm xs:text-xs'><Link to='/send-mail'>Forgget password?</Link></h1>
 
+                        <div className='md:flex justify-center items-center mt-5'>
+                            <button className='bg-orange-500 text-white rounded-full px-3 p-2  md:text-sm xs:text-xs'>Send e-Mail</button>
 
-                        <div className='md:flex justify-between items-center mt-2'>
-                            <button className='bg-orange-500 text-white rounded-full px-3 p-2  md:text-sm xs:text-xs'>Sign In</button>
-                            <h1 className='text-white text-sm mt-2 p-2  md:text-sm xs:text-xs'>don't have an Account? <Link to='/sign-up'>Sign Up</Link></h1>
                         </div>
 
                     </form>
                 </div>
             </div >
+
         </>
     )
 }
 
-export default SignIn
+export default SendMail

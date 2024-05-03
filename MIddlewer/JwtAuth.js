@@ -27,7 +27,14 @@ const createToken = (userData) => {
     return jwt.sign(userData, "Dalwadi")
 }
 
+//reset-password token
+
+const resetpasstoken = (data) => {
+    return jwt.sign(data, "Dalwadi")
+}
+
 export {
     jwtAuthMiddelwer,
-    createToken
+    createToken,
+    resetpasstoken
 }

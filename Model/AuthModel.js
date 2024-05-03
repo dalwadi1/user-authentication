@@ -17,6 +17,9 @@ const Registration = mongoose.Schema({
     userConformPass: {
         type: 'string'
     },
+    token: {
+        type: 'string',
+    }
 })
 
 const Registered = mongoose.model('AuthTable', Registration);
