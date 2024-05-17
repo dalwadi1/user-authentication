@@ -2,7 +2,6 @@ import Joi from 'joi'
 
 const validateUser = Joi.object({
     username: Joi.string()
-        .alphanum()
         .min(3)
         .max(30)
         .required(),
@@ -27,7 +26,7 @@ const forgotpass = Joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
 
 
-    password: Joi.string().min(8).message("password must be required"),
+    password: Joi.string().min(8),
 
     conformpassword: Joi.ref('password'),
 })

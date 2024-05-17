@@ -36,7 +36,13 @@ const SignIn = () => {
                 transition: Bounce,
             });
             if (res.data.success === true) {
-                navigate('/user-desh')
+                if (res.data.token) {
+                    localStorage.clear();
+                    localStorage.setItem("token", res.data.token)
+                    navigate('/user-desh')
+                } else {
+                    navigate('/sign-in')
+                }
             }
             else {
                 navigate('/sign-in')

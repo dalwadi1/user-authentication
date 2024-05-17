@@ -10,16 +10,15 @@ import SendMail from './Views/Authentication/SendMail'
 function App() {
 
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/sign-in' element={<SignIn />} />
-        <Route path='/user-desh' element={<UserDesh />} />
-        <Route path='/send-mail' element={<SendMail />} />
-        <Route path='/forgot-pass/:token' element={<ForgotPass />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/sign-up' element={<SignUp />} />
+      <Route path='/sign-in' element={<SignIn />} />
+      <Route path='/user-desh' element={<UserDesh />} />
+      <Route path='/send-mail' element={<SendMail />} />
+      <Route path='/forgot-pass/:token' element={<ForgotPass />} />
+    </Routes>
+
   )
 }
 

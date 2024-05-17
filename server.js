@@ -14,6 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/demo1')
 app.use(AuthRoutes)
 
-app.listen(5000, () => {
+app.listen(5001, () => {
     console.log('server start');
 })

@@ -1,18 +1,18 @@
 import express from "express";
 import Auth from "../Model/AuthModel.js";
-import { jwtAuthMiddelwer, createToken } from "../MIddlewer/JwtAuth.js";
+import { createToken } from "../MIddlewer/JwtAuth.js";
+import authmidd from "../MIddlewer/AuthMidd.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
-
-
 const router = express.Router()
-import validateUser from './validate.js';
+import validateUser from './Helper/validate.js';
 
 router.get('/', (req, res) => {
     res.send('hii Dalwadi')
 })
 
+//sign up route
 router.post('/sign-up', async (req, res) => {
     const { username, email, password, conformpassword } = req.body
 
@@ -44,7 +44,7 @@ router.post('/sign-up', async (req, res) => {
                 userEmail: email
             }
 
-            const token = createToken(payload);
+            const token = Math.random().toString(36).slice(2);
 
             const register = Auth({
                 userName: username,
@@ -63,6 +63,7 @@ router.post('/sign-up', async (req, res) => {
     }
 })
 
+//sign in route
 router.post('/sign-in', async (req, res) => {
 
     const { email, password } = req.body
@@ -80,10 +81,8 @@ router.post('/sign-in', async (req, res) => {
     }
     else {
         const matchUser = await Auth.findOne({ userEmail: email })
-
         if (matchUser) {
             const storedHash = matchUser.userConformPass;
-
             const match = await bcrypt.compare(password, storedHash);
             if (match) {
 
@@ -93,6 +92,7 @@ router.post('/sign-in', async (req, res) => {
                 }
 
                 const token = createToken(payload);
+                console.log(req.header);
                 res.json({
                     success: true,
                     message: 'You are successfully logedin...',
@@ -116,6 +116,8 @@ router.post('/sign-in', async (req, res) => {
 
     }
 })
+
+//send mail route
 router.post('/send-mail', async (req, res) => {
 
     const { email } = req.body
@@ -141,7 +143,6 @@ router.post('/send-mail', async (req, res) => {
                     pass: "c9ec7a96fd1ded"
                 }
             });
-            const token = findUser.token
             const mailData = ({
                 from: "@Dalwadi",
                 to: findUser.userEmail,
@@ -165,10 +166,13 @@ router.post('/send-mail', async (req, res) => {
     }
 })
 
+//forget password route
 router.put('/forgot-pass', async (req, res) => {
 
     const { pass, cpass } = req.body.formdata
-    const token = req.body.token
+    const Rtoken = req.body.token
+    const findUser = await Auth.findOne({ token: Rtoken })
+    // console.log(findUser);
 
     const { error, value } = validateUser.forgotpass.validate({
         password: pass,
@@ -181,22 +185,40 @@ router.put('/forgot-pass', async (req, res) => {
             message: error.message
         })
     } else {
-        const matchUser = Auth.find({})
-        if (matchUser) {
-            const newhaspass = bcrypt.hash(pass, 10)
-            console.log(matchUser);
+        // console.log(token);
+        if (findUser) {
+            // console.log(cpass);
+            const newhaspass = await bcrypt.hash(pass, 10)
+            console.log(newhaspass);
 
-            // const Update = matchUser.updateOne({ userConformPass: newhaspass })
+            const Update = await findUser.updateOne({ userConformPass: newhaspass })
 
-            // if (Update) {
-            //     res.json({
-            //         success: true,
-            //         message: "password successfully update!"
-            //     })
-            // }
+            if (Update) {
+                res.json({
+                    success: true,
+                    message: "password successfully update!"
+                })
+            }
         }
     }
-
 })
 
+//user deshbord route
+router.get('/auth', (req, res) => {
+    res.json({
+        success: true,
+        message: "You are loged in"
+    })
+})
+
+//profile route
+router.get('/profile', authmidd, async (req, res) => {
+
+    const userdata1 = req.user
+
+    res.json({
+        userProfile: userdata1
+    })
+
+})
 export default router
